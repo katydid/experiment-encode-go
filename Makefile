@@ -12,18 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: nuke dep regenerate gofmt build test
+.PHONY: nuke gofmt build test
 
-all: nuke dep regenerate build test vet
-
-dep:
-	go install -v github.com/goccmack/gocc
-	go install -v github.com/awalterschulze/goderive
+all: nuke build test vet
 
 checklicense:
 	go get github.com/awalterschulze/checklicense
 	checklicense . \
-	bnf \
 	doc.go \
 	tools/tools.go \
 	.svg \
@@ -43,21 +38,11 @@ bench:
 
 vet:
 	go vet ./encode/...
-	go vet ./gen/...
-	go vet ./validator/...
-
-regenerate:
-	goderive ./...
-	(cd validator && make regenerate)
-	(cd validator/funcs && go test -test.run=GenFuncList | grep "func\ " >../../list_of_functions.txt)
 
 clean:
 	go clean ./...
-	(cd validator && make clean)
 
 nuke: clean
-	(cd validator && make nuke)
-	rm list_of_functions.txt || true
 	go clean -i ./...
 
 gofmt:
@@ -65,13 +50,8 @@ gofmt:
 
 travis:
 	make all
-	make errcheck
 	make checklicense
 	make diff
-
-errcheck:
-	go get github.com/kisielk/errcheck
-	errcheck -ignore 'fmt:[FS]?[Pp]rint*' ./...
 
 diff:
 	git diff --exit-code .
