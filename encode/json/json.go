@@ -17,7 +17,7 @@
 package json
 
 import (
-	"encoding/base64"
+	"bytes"
 	"encoding/json"
 	"io"
 
@@ -67,7 +67,9 @@ func encode(p parser.Interface) (interface{}, error) {
 				return v, nil
 			}
 			if v, err := p.Bytes(); err == nil {
-				return base64.StdEncoding.EncodeToString(v), nil
+				if bytes.Equal(v, []byte("null")) {
+					return nil, nil
+				}
 			}
 			return nil, nil
 		}
