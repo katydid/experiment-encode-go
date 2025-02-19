@@ -24,6 +24,7 @@ import (
 )
 
 func testTranscode(t *testing.T, input interface{}) {
+	t.Helper()
 	inputData, err := json.Marshal(input)
 	if err != nil {
 		t.Fatal(err)
@@ -39,7 +40,7 @@ func testTranscode(t *testing.T, input interface{}) {
 	}
 	output := reflect.New(reflect.TypeOf(input).Elem()).Interface()
 	if err := json.Unmarshal(outputData, output); err != nil {
-		t.Fatal(err)
+		t.Fatalf("error = %v for encoded = %v", err, string(outputData))
 	}
 	if !reflect.DeepEqual(input, output) {
 		t.Fatalf("expected equal, but got %s", string(outputData))
@@ -47,6 +48,7 @@ func testTranscode(t *testing.T, input interface{}) {
 }
 
 func testMarshal(t *testing.T, input interface{}) {
+	t.Helper()
 	t.Logf("testing marshaling: %#v", input)
 	p := reflectparser.NewReflectParser()
 	p.Init(reflect.ValueOf(input))
@@ -56,7 +58,7 @@ func testMarshal(t *testing.T, input interface{}) {
 	}
 	output := reflect.New(reflect.TypeOf(input).Elem()).Interface()
 	if err := json.Unmarshal(outputData, output); err != nil {
-		t.Fatal(err)
+		t.Fatalf("error = %v for encoded = %v", err, string(outputData))
 	}
 	if !reflect.DeepEqual(input, output) {
 		t.Fatalf("expected equal, but got %s", string(outputData))
