@@ -29,7 +29,7 @@ func testTranscode(t *testing.T, input interface{}) {
 		t.Fatal(err)
 	}
 	t.Logf("testing transcoding: %s", string(inputData))
-	p := jsonparser.NewJsonParser()
+	p := jsonparser.NewParser()
 	if err := p.Init(inputData); err != nil {
 		t.Fatal(err)
 	}
