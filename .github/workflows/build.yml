@@ -18,10 +18,6 @@ jobs:
       run: |
         cd gopath/github.com/katydid/experiment-encode-go
         go mod download -x
-    - name: Install tools
-      run: |
-        cd gopath/github.com/katydid/experiment-encode-go
-        go install -x github.com/awalterschulze/checklicense
     - name: env
       run: env && go env && pwd
     - name: tree
@@ -39,9 +35,9 @@ jobs:
         cd gopath/github.com/katydid/experiment-encode-go
         make vet
     - name: Checklicencse
-      run: |
-        cd gopath/github.com/katydid/experiment-encode-go
-        make checklicense
+      uses: awalterschulze/checklicense@v1.0.5
+      with:
+        ignores: doc.go
     - name: Diff
       run: |
         cd gopath/github.com/katydid/experiment-encode-go
