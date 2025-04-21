@@ -16,14 +16,6 @@
 
 all: nuke build test vet
 
-checklicense:
-	go get github.com/awalterschulze/checklicense
-	checklicense . \
-	doc.go \
-	tools/tools.go \
-	.svg \
-	.txt
-
 test:
 	go test ./...
 
@@ -47,11 +39,6 @@ nuke: clean
 
 gofmt:
 	gofmt -l -s -w .
-
-travis:
-	make all
-	make checklicense
-	make diff
 
 diff:
 	git diff --exit-code .
