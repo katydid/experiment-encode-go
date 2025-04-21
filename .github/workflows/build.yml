@@ -35,7 +35,7 @@ jobs:
         cd gopath/github.com/katydid/experiment-encode-go
         make vet
     - name: Checklicencse
-      uses: awalterschulze/checklicense@v1.0.5
+      uses: awalterschulze/checklicense@v1.0.6
       with:
         ignores: doc.go
     - name: Diff
